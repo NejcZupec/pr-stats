@@ -29,9 +29,3 @@ class DataFetcher:
                 break
 
         return result
-
-
-if __name__ == '__main__':
-    fetcher = DataFetcher()
-    prs = fetcher.get_pull_requests()
-    print(prs)
