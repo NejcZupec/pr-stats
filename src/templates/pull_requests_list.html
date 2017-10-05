@@ -27,10 +27,10 @@
           <tr>
             <td>{{ pr.id }}</td>
             <td>{{ pr.title }}</td>
-            <td>{{ pr.user.email }}</td>
+            <td>{{ pr.user.name }}</td>
             <td>
               {% for assignee in pr.assignees %}
-                {{ assignee.email }}{% if not loop.last %},{% endif %}
+                {{ assignee.name }}{% if not loop.last %},{% endif %}
               {% endfor %}
             </td>
             <td>{{ pr.state }}</td>
