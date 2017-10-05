@@ -1,5 +1,7 @@
-import jinja2
+import datetime
 import os
+
+import jinja2
 
 from src.data_fetcher import DataFetcher
 
@@ -50,8 +52,32 @@ class PullRequestsListReport(BaseReportGenerator):
         }
 
 
+class OpenedPRsReport(BaseReportGenerator):
+
+    def __init__(self):
+        super(OpenedPRsReport, self).__init__(
+            template_file='opened_prs.html',
+            output_filename='opened_prs_report.html',
+        )
+
+    @staticmethod
+    def _get_context():
+        return {
+            'opened_prs': [
+                [datetime.datetime(year=2017, month=10, day=1).timestamp() * 1000, 17],
+                [datetime.datetime(year=2017, month=10, day=2).timestamp() * 1000, 12],
+                [datetime.datetime(year=2017, month=10, day=3).timestamp() * 1000, 15],
+                [datetime.datetime(year=2017, month=10, day=4).timestamp() * 1000, 23],
+            ],
+        }
+
 if __name__ == '__main__':
 
     # pull requests list report
     report_generator = PullRequestsListReport()
     report_generator.generate_report()
+
+    # opened PRs report
+    report_generator = OpenedPRsReport()
+    report_generator.generate_report()
+
