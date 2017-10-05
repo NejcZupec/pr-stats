@@ -10,7 +10,7 @@
 
   <!-- List of pull requests -->
   <section>
-    <h1>List of opened pull requests</h1>
+    <h1>List of pull requests</h1>
 
     <table class="table">
       <thead>
@@ -23,16 +23,12 @@
         <th>Merged at</th>
       </thead>
       <tbody>
-        {% for pr in pull_requests %}
+        {% for pr in pull_requests.values() %}
           <tr>
             <td>{{ pr.id }}</td>
             <td>{{ pr.title }}</td>
-            <td>{{ pr.user.name }}</td>
-            <td>
-              {% for assignee in pr.assignees %}
-                {{ assignee.name }}{% if not loop.last %},{% endif %}
-              {% endfor %}
-            </td>
+            <td>{{ pr.owner }}</td>
+            <td>{{ pr.assignees }}</td>
             <td>{{ pr.state }}</td>
             <td>{{ pr.created_at }}</td>
             <td>{{ pr.merged_at }}</td>

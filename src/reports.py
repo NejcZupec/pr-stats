@@ -1,9 +1,14 @@
 import datetime
+import json
 import os
 
 import jinja2
 
-from src.data_fetcher import DataFetcher
+
+def load_data(filename):
+    with open(filename, 'r') as f:
+        json_data = f.read()
+    return json.loads(json_data)
 
 
 class BaseReportGenerator(object):
@@ -48,7 +53,7 @@ class PullRequestsListReport(BaseReportGenerator):
     @staticmethod
     def _get_context():
         return {
-            'pull_requests': DataFetcher().get_pull_requests(),
+            'pull_requests': load_data('github_data.json'),
         }
 
 
