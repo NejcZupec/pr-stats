@@ -12,7 +12,10 @@ class ReportGenerator(object):
 
     def render_report(self):
         template = self.jinja_env.get_template('base.html')
-        print(template.render(pull_requests=[]))
+        content = template.render(pull_requests=[])
+        f = open('report.html', 'w')
+        f.write(content)
+        f.close()
 
 
 if __name__ == '__main__':
