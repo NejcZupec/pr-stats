@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Opened PRs per day</h1>
+
+  <div id="chart"></div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://code.highcharts.com/stock/highstock.js"></script>
+
+  <script>
+    Highcharts.stockChart('chart', {
+        chart: {
+            alignTicks: false
+        },
+
+        title: {
+            text: 'Opened PRs per day'
+        },
+
+        series: [{
+            type: 'column',
+            data: {{ opened_prs }}
+        }]
+    })
+
+  </script>
+{% endblock %}

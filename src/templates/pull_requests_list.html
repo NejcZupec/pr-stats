@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Stats -->
+  <section>
+    <h1>Stats</h1>
+
+    <p>Count: {{ pull_requests|count }}</p>
+  </section>
+
+  <!-- List of pull requests -->
+  <section>
+    <h1>List of opened pull requests</h1>
+
+    <table class="table">
+      <thead>
+        <th>Id</th>
+        <th>Title</th>
+        <th>Owner</th>
+        <th>Assignee</th>
+        <th>State</th>
+        <th>Created at</th>
+        <th>Merged at</th>
+      </thead>
+      <tbody>
+        {% for pr in pull_requests %}
+          <tr>
+            <td>{{ pr.id }}</td>
+            <td>{{ pr.title }}</td>
+            <td>{{ pr.user.name }}</td>
+            <td>
+              {% for assignee in pr.assignees %}
+                {{ assignee.name }}{% if not loop.last %},{% endif %}
+              {% endfor %}
+            </td>
+            <td>{{ pr.state }}</td>
+            <td>{{ pr.created_at }}</td>
+            <td>{{ pr.merged_at }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+{% endblock content %}

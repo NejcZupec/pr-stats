@@ -12,52 +12,14 @@
 
   <body>
     <div class="container-fluid">
-
-      <!-- Stats -->
-      <section>
-        <h1>Stats</h1>
-
-        <p>Count: {{ pull_requests|count }}</p>
-      </section>
-
-      <!-- List of pull requests -->
-      <section>
-        <h1>List of opened pull requests</h1>
-
-        <table class="table">
-          <thead>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Owner</th>
-            <th>Assignee</th>
-            <th>State</th>
-            <th>Created at</th>
-            <th>Merged at</th>
-          </thead>
-          <tbody>
-            {% for pr in pull_requests %}
-              <tr>
-                <td>{{ pr.id }}</td>
-                <td>{{ pr.title }}</td>
-                <td>{{ pr.user.email }}</td>
-                <td>
-                  {% for assignee in pr.assignees %}
-                    {{ assignee.email }}{% if not loop.last %},{% endif %}
-                  {% endfor %}
-                </td>
-                <td>{{ pr.state }}</td>
-                <td>{{ pr.created_at }}</td>
-                <td>{{ pr.merged_at }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </section>
+      {% block content %}{% endblock %}
     </div>
 
     <!-- JS sources for Bootstrap v4 -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+    {% block extra_scripts %}{% endblock %}
   </body>
 </html>
