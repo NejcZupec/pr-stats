@@ -16,6 +16,8 @@
       <!-- Stats -->
       <section>
         <h1>Stats</h1>
+
+        <p>Count: {{ pull_requests|count }}</p>
       </section>
 
       <!-- List of pull requests -->
@@ -24,16 +26,28 @@
 
         <table class="table">
           <thead>
+            <th>Id</th>
             <th>Title</th>
             <th>Owner</th>
             <th>Assignee</th>
+            <th>State</th>
+            <th>Created at</th>
+            <th>Merged at</th>
           </thead>
           <tbody>
-            {% for pr in prs %}
+            {% for pr in pull_requests %}
               <tr>
+                <td>{{ pr.id }}</td>
                 <td>{{ pr.title }}</td>
-                <td>{{ pr.owner }}</td>
-                <td>{{ pr.assignee }}</td>
+                <td>{{ pr.user.email }}</td>
+                <td>
+                  {% for assignee in pr.assignees %}
+                    {{ assignee.email }}{% if not loop.last %},{% endif %}
+                  {% endfor %}
+                </td>
+                <td>{{ pr.state }}</td>
+                <td>{{ pr.created_at }}</td>
+                <td>{{ pr.merged_at }}</td>
               </tr>
             {% endfor %}
           </tbody>
