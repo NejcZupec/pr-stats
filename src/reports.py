@@ -12,8 +12,8 @@ class ReportGenerator(object):
         loader = jinja2.FileSystemLoader(template_dir)
         self.jinja_env = jinja2.Environment(loader=loader)
 
-    def render_report(self):
-        template = self.jinja_env.get_template('base.html')
+    def render_pull_requests_list_report(self):
+        template = self.jinja_env.get_template('pull_requests_list.html')
         content = template.render(
             pull_requests=DataFetcher().get_pull_requests(),
         )
@@ -25,4 +25,4 @@ class ReportGenerator(object):
 
 if __name__ == '__main__':
     generator = ReportGenerator()
-    generator.render_report()
+    generator.render_pull_requests_list_report()
