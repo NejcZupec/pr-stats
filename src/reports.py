@@ -1,6 +1,8 @@
 import jinja2
 import os
 
+from src.data_fetcher import DataFetcher
+
 
 class ReportGenerator(object):
 
@@ -12,7 +14,10 @@ class ReportGenerator(object):
 
     def render_report(self):
         template = self.jinja_env.get_template('base.html')
-        content = template.render(pull_requests=[])
+        content = template.render(
+            pull_requests=DataFetcher().get_pull_requests(),
+        )
+        # TODO: wrap with try/catch
         f = open('report.html', 'w')
         f.write(content)
         f.close()
