@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Opened PRs per day</h1>
+  <h2>Opened/Closed PRs per day</h2>
 
-  <div id="chart"></div>
+  <div id="opened-merged-prs-chart"></div>
 {% endblock %}
 
 {% block extra_scripts %}
@@ -11,18 +11,25 @@
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
 
   <script>
-    Highcharts.stockChart('chart', {
+    Highcharts.stockChart('opened-merged-prs-chart', {
         chart: {
             alignTicks: false
         },
 
         title: {
-            text: 'Opened PRs per day'
+            text: 'Created/merged PRs on a particular date'
         },
 
         series: [{
+            name: 'created',
             type: 'column',
-            data: {{ opened_prs }}
+            data: {{ created_prs }},
+            color: 'red'
+        }, {
+            name: 'merged',
+            type: 'column',
+            data: {{ merged_prs }},
+            color: 'green'
         }]
     })
 
