@@ -1,10 +1,11 @@
 import datetime
 import os
+import time
 
 import jinja2
 
 from src.data_fetcher import DataFetcher
-
+from src.stats import StatsAggregator
 
 class BaseReportGenerator(object):
 
@@ -52,23 +53,32 @@ class PullRequestsListReport(BaseReportGenerator):
         }
 
 
-class OpenedPRsReport(BaseReportGenerator):
+class CreatedMergedPRsReport(BaseReportGenerator):
 
     def __init__(self):
-        super(OpenedPRsReport, self).__init__(
-            template_file='opened_prs.html',
-            output_filename='opened_prs_report.html',
+        super(CreatedMergedPRsReport, self).__init__(
+            template_file='created_merged_prs.html',
+            output_filename='created_merged_prs_report.html',
         )
 
     @staticmethod
-    def _get_context():
+    def _format_data(count_dict):
+        data = []
+        for date in count_dict:
+            timestamp = time.mktime(date.timetuple())*1000
+            count = count_dict[date]
+            data.append([timestamp, count])
+        return data
+
+    @classmethod
+    def _get_context(cls):
+        aggregator = StatsAggregator()
+        created_prs = cls._format_data(aggregator.prs_opened_by_day())
+        merged_prs = cls._format_data(aggregator.prs_merged_by_day())
+
         return {
-            'opened_prs': [
-                [datetime.datetime(year=2017, month=10, day=1).timestamp() * 1000, 17],
-                [datetime.datetime(year=2017, month=10, day=2).timestamp() * 1000, 12],
-                [datetime.datetime(year=2017, month=10, day=3).timestamp() * 1000, 15],
-                [datetime.datetime(year=2017, month=10, day=4).timestamp() * 1000, 23],
-            ],
+            'created_prs': created_prs,
+            'merged_prs': merged_prs,
         }
 
 if __name__ == '__main__':
@@ -77,7 +87,7 @@ if __name__ == '__main__':
     report_generator = PullRequestsListReport()
     report_generator.generate_report()
 
-    # opened PRs report
-    report_generator = OpenedPRsReport()
+    # opened/closed PRs report
+    report_generator = CreatedMergedPRsReport()
     report_generator.generate_report()
 
